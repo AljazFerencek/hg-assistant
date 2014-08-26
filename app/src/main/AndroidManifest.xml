@@ -16,6 +16,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddNewPlant"
+            android:label="@string/title_activity_add_new_plant"
+            android:parentActivityName=".main" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hivegarden.assistant.main" />
+        </activity>
+        <activity
+            android:name=".AddNewGarden"
+            android:label="@string/title_activity_add_new_garden"
+            android:parentActivityName=".AddNewPlant" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hivegarden.assistant.AddNewPlant" />
+        </activity>
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

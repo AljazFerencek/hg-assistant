@@ -11,5 +11,8 @@
     <string name="action_add_new_plant">Add new plant</string>
     <string name="action_alerts">Alerts</string>
     <string name="ad_first_plant">Add first plant</string>
+    <string name="title_activity_add_new_plant">Add new plant</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_add_new_garden">Add new garden</string>
 
 </resources>
