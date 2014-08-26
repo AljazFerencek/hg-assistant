@@ -13,5 +13,15 @@
     <string name="ad_first_plant">Add first plant</string>
     <string name="title_activity_add_new_plant">Add new plant</string>
     <string name="title_activity_add_new_garden">Add new garden</string>
+    <string name="garden_location_switcher">Garden location</string>
+    <string name="half_shade">Half shade</string>
+    <string name="full_shade">Full shade</string>
+    <string name="sunny">Sunny</string>
+    <string name="garden_name_hint">Name your garden</string>
+    <string name="garden_location_outdoors">Outdoor</string>
+    <string name="garden_location_indoors">Indoor</string>
+    <string name="plant_name_hint">Name your plant</string>
+    <string name="add_plant_take_photo">Add/take photo</string>
+    <string name="add_plant_photo_desc">Add/take photo</string>
 
 </resources>

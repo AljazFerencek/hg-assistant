@@ -4,6 +4,7 @@ package com.hivegarden.assistant;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -56,6 +57,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
+    //TODO Find use for this - first time starting the app
     private boolean mUserLearnedDrawer;
 
     public NavigationDrawerFragment() {
@@ -173,9 +175,9 @@ public class NavigationDrawerFragment extends Fragment {
 
         // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
         // per the navigation drawer design guidelines.
-        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-            mDrawerLayout.openDrawer(mFragmentContainerView);
-        }
+        //if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+        //    mDrawerLayout.openDrawer(mFragmentContainerView);
+        //}
 
         // Defer code dependent on restoration of previous instance state.
         mDrawerLayout.post(new Runnable() {
@@ -250,6 +252,10 @@ public class NavigationDrawerFragment extends Fragment {
         if (item.getItemId() == R.id.action_alerts) {
             Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
             return true;
+        }
+        if (item.getItemId() == R.id.action_add_new_plant) {
+            Intent intent = new Intent(super.getActivity(), AddNewPlant.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
