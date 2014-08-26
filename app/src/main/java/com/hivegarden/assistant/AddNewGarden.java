@@ -60,5 +60,6 @@ public class AddNewGarden extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_add_new_garden, container, false);
             return rootView;
         }
+        //TODO Zrihtaj api key za google maps in implementiraj maps fragment
     }
 }

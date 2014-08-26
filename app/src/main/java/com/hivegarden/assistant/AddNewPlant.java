@@ -60,5 +60,7 @@ public class AddNewPlant extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_add_new_plant, container, false);
             return rootView;
         }
+
+        //TODO Zdefiniraj elemente v spinnerju (najbolj pogoste rastline)
     }
 }
