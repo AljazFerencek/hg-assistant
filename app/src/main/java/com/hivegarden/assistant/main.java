@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hivegarden.assistant.helpers.*;
@@ -41,7 +43,8 @@ public class main extends Activity
      */
     private CharSequence mTitle;
 
-    public String weather = "";
+    public String weather;
+    public Bitmap image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,30 +182,17 @@ public class main extends Activity
     public void changeWeatherPlaceholder(View view) throws JSONException {
 
         new AsyncTaskParseJson().execute();
-
-        /*String data = (new HttpClient()).getWeatherData("lat=46.0173164&lon=14.5107803");
-        JSONObject jObj = new JSONObject(data);
-        JSONArray jArr = jObj.getJSONArray("weather");
-        JSONObject mainObj = jObj.getJSONObject("main");
-        JSONObject JSONWeather = jArr.getJSONObject(0);
-
-        String description = JSONWeather.getString("description");
-        String icon = getString("icon", JSONWeather);
-        Integer humidity = getInt("humidity", mainObj);
-        Integer pressure = getInt("pressure", mainObj);
-        Float temperature = getFloat("temp", mainObj);
-*/
         Handler handler = new Handler();
-        handler.postDelayed(new UpdateTextView(), 3000);
+        handler.postDelayed(new Update(), 2000);
     }
 
-    private class UpdateTextView implements Runnable{
-        public UpdateTextView() {
-        }
+    private class Update implements Runnable{
         @Override
         public void run() {
             TextView t = (TextView) findViewById(R.id.textViewWeatherPlaceholder);
             t.setText(weather);
+            ImageView i = (ImageView) findViewById(R.id.imageViewWeather);
+            i.setImageBitmap(image);
         }
     }
 
@@ -218,15 +208,12 @@ public class main extends Activity
                 JSONArray jArr = json.getJSONArray("weather");
                 JSONObject mainObj = json.getJSONObject("main");
                 JSONObject JSONWeather = jArr.getJSONObject(0);
-                String description = JSONWeather.getString("description");
-                String icon = JSONWeather.getString("icon");
-                Integer humidity = mainObj.getInt("humidity");
-                Integer pressure = mainObj.getInt("pressure");
                 Double temperature = mainObj.getDouble("temp");
+                String icon = JSONWeather.getString("icon");
+                image = jParser.getImage(icon);
                 temperature = temperature - 273.15;
                 Integer temp = temperature.intValue();
-                Log.d("Main:", description + " Temperature: " + temp);
-                weather = "Weather: " + description + " Temperature: " + temp + "°C";
+                weather = temp + "°C";
 
             } catch (JSONException e) {
                 e.printStackTrace();

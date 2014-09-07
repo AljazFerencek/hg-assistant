@@ -15,7 +15,6 @@
             android:id="@+id/textViewWeatherPlaceholder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weather placeholder text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_gravity="right" />
 
@@ -61,6 +60,17 @@
                 android:layout_alignParentEnd="true"
                 android:enabled="true"
                 android:onClick="changeWeatherPlaceholder" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewWeather"
+                android:layout_alignTop="@+id/buttonWeatherChange"
+                android:layout_alignLeft="@+id/imageViewAddFirstPlant"
+                android:layout_alignStart="@+id/imageViewAddFirstPlant"
+                android:layout_alignBottom="@+id/buttonWeatherChange"
+                android:layout_alignRight="@+id/textViewAddFirstPlant"
+                android:layout_alignEnd="@+id/textViewAddFirstPlant" />
         </RelativeLayout>
 
     </LinearLayout>
