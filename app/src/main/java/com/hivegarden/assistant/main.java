@@ -5,22 +5,27 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hivegarden.assistant.helpers.*;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 
 public class main extends Activity
@@ -36,6 +41,8 @@ public class main extends Activity
      */
     private CharSequence mTitle;
 
+    public String weather = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +52,7 @@ public class main extends Activity
         SharedPreferences firstRun = getSharedPreferences("PREFERENCES", MODE_PRIVATE);
         Log.d("FirstRun", String.valueOf(firstRun));
 
-        if(firstRun.getBoolean("firstrun", true)){
+        if (firstRun.getBoolean("firstrun", true)) {
             Log.d("FirstRun", "First run activated");
             Toast.makeText(this, "Aplikacija je zagnana prvič", Toast.LENGTH_LONG).show();
             firstRun.edit().putBoolean("firstrun", false).commit();
@@ -155,7 +162,7 @@ public class main extends Activity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
@@ -166,6 +173,68 @@ public class main extends Activity
             ((main) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
     }
 
+    public void changeWeatherPlaceholder(View view) throws JSONException {
+
+        new AsyncTaskParseJson().execute();
+
+        /*String data = (new HttpClient()).getWeatherData("lat=46.0173164&lon=14.5107803");
+        JSONObject jObj = new JSONObject(data);
+        JSONArray jArr = jObj.getJSONArray("weather");
+        JSONObject mainObj = jObj.getJSONObject("main");
+        JSONObject JSONWeather = jArr.getJSONObject(0);
+
+        String description = JSONWeather.getString("description");
+        String icon = getString("icon", JSONWeather);
+        Integer humidity = getInt("humidity", mainObj);
+        Integer pressure = getInt("pressure", mainObj);
+        Float temperature = getFloat("temp", mainObj);
+*/
+        Handler handler = new Handler();
+        handler.postDelayed(new UpdateTextView(), 3000);
+    }
+
+    private class UpdateTextView implements Runnable{
+        public UpdateTextView() {
+        }
+        @Override
+        public void run() {
+            TextView t = (TextView) findViewById(R.id.textViewWeatherPlaceholder);
+            t.setText(weather);
+        }
+    }
+
+    public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {}
+
+        protected String doInBackground(String... arg0) {
+             try {
+
+                HttpClient jParser = new HttpClient();
+                JSONObject json = jParser.getWeatherData("lat=46.0173164&lon=14.5107803");
+                JSONArray jArr = json.getJSONArray("weather");
+                JSONObject mainObj = json.getJSONObject("main");
+                JSONObject JSONWeather = jArr.getJSONObject(0);
+                String description = JSONWeather.getString("description");
+                String icon = JSONWeather.getString("icon");
+                Integer humidity = mainObj.getInt("humidity");
+                Integer pressure = mainObj.getInt("pressure");
+                Double temperature = mainObj.getDouble("temp");
+                temperature = temperature - 273.15;
+                Integer temp = temperature.intValue();
+                Log.d("Main:", description + " Temperature: " + temp);
+                weather = "Weather: " + description + " Temperature: " + temp + "°C";
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String strFromDoInBg) {}
+    }
 }

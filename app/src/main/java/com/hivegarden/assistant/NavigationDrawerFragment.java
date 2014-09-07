@@ -66,7 +66,6 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -250,10 +249,10 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         if (item.getItemId() == R.id.action_alerts) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Test alert action.", Toast.LENGTH_SHORT).show();
             return true;
         }
-        if (item.getItemId() == R.id.action_add_new_plant) {
+        if (item.getItemId() == R.id.actionAddNewPlant) {
             Intent intent = new Intent(super.getActivity(), AddNewPlant.class);
             startActivity(intent);
         }
