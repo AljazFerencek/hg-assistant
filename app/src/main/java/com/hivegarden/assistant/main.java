@@ -189,7 +189,7 @@ public class main extends Activity
     private class Update implements Runnable{
         @Override
         public void run() {
-            TextView t = (TextView) findViewById(R.id.textViewWeatherPlaceholder);
+            TextView t = (TextView) findViewById(R.id.textViewTemperature);
             t.setText(weather);
             ImageView i = (ImageView) findViewById(R.id.imageViewWeather);
             i.setImageBitmap(image);
