@@ -11,13 +11,27 @@
         android:text="placeholder 1"
         android:layout_weight="1" >
 
-        <TextView
-            android:id="@+id/textViewWeatherPlaceholder"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_gravity="right" />
+            android:layout_gravity="right">
 
+            <TextView
+                android:id="@+id/textViewTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="20sp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_gravity="right"
+                android:textSize="12sp"
+                android:gravity="right"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageViewWeather"
+                android:layout_gravity="right"/>
+        </LinearLayout>
 
 
         <RelativeLayout
@@ -61,16 +75,6 @@
                 android:enabled="true"
                 android:onClick="changeWeatherPlaceholder" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageViewWeather"
-                android:layout_alignTop="@+id/buttonWeatherChange"
-                android:layout_alignLeft="@+id/imageViewAddFirstPlant"
-                android:layout_alignStart="@+id/imageViewAddFirstPlant"
-                android:layout_alignBottom="@+id/buttonWeatherChange"
-                android:layout_alignRight="@+id/textViewAddFirstPlant"
-                android:layout_alignEnd="@+id/textViewAddFirstPlant" />
         </RelativeLayout>
 
     </LinearLayout>
