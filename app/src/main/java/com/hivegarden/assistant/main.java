@@ -97,10 +97,10 @@ public class main extends Activity
                 mTitle = getString(R.string.app_name);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.plant_activity_tab_name2);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.plant_activity_tab_name3);
                 break;
         }
     }

@@ -54,6 +54,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hivegarden.assistant.main" />
         </activity>
+        <activity
+            android:name=".MyPlant.PlantActivity"
+            android:label="@string/title_activity_plant"
+            android:parentActivityName=".main" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hivegarden.assistant.main" />
+        </activity>
     </application>
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />

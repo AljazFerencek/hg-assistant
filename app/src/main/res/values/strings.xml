@@ -2,9 +2,6 @@
 <resources>
 
     <string name="app_name">Assistant</string>
-    <string name="title_section1">My Garden</string>
-    <string name="title_section2">Settings</string>
-    <string name="title_section3">Sign in</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
@@ -23,5 +20,15 @@
     <string name="plant_name_hint">Name your plant</string>
     <string name="add_plant_take_photo">Add/take photo</string>
     <string name="add_plant_photo_desc">Add/take photo</string>
+    <string name="title_activity_plant">Plant</string>
+    <string name="hello_world">Hello world!</string>
+
+    <!-- PlantActivity TAB names -->
+    <string name="plant_activity_tab_name1">My plant</string>
+    <string name="plant_activity_tab_name2">To - do</string>
+    <string name="plant_activity_tab_name3">Report problem</string>
+    <string name="plant_activity_tab_name4">Recipes</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="coming_soon">Coming soon</string>
 
 </resources>
