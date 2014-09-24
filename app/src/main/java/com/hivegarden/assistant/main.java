@@ -58,7 +58,7 @@ public class main extends Activity
         if (firstRun.getBoolean("firstrun", true)) {
             Log.d("FirstRun", "First run activated");
             Toast.makeText(this, "Aplikacija je zagnana prvič", Toast.LENGTH_LONG).show();
-            firstRun.edit().putBoolean("firstrun", false).commit();
+            firstRun.edit().putBoolean("firstrun", false).apply();
         }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -69,6 +69,12 @@ public class main extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        try {
+            changeWeather();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -107,6 +113,7 @@ public class main extends Activity
 
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
+        assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
@@ -132,10 +139,7 @@ public class main extends Activity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 
     /**
@@ -166,8 +170,7 @@ public class main extends Activity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+            return inflater.inflate(R.layout.fragment_main, container, false);
         }
 
         @Override
@@ -179,11 +182,10 @@ public class main extends Activity
 
     }
 
-    public void changeWeatherPlaceholder(View view) throws JSONException {
-
-        new AsyncTaskParseJson().execute();
+    public void changeWeather() throws JSONException {
+        new JSONWeatherParser().execute();
         Handler handler = new Handler();
-        handler.postDelayed(new Update(), 2000);
+        handler.postDelayed(new Update(), 4000);
     }
 
     private class Update implements Runnable{
@@ -196,7 +198,7 @@ public class main extends Activity
         }
     }
 
-    public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
+    public class JSONWeatherParser extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {}
 
@@ -204,13 +206,13 @@ public class main extends Activity
              try {
 
                 HttpClient jParser = new HttpClient();
-                JSONObject json = jParser.getWeatherData("lat=46.0173164&lon=14.5107803");
+                JSONObject json = jParser.getWeatherData("http://api.openweathermap.org/data/2.5/weather?lat=46.0173164&lon=14.5107803");
                 JSONArray jArr = json.getJSONArray("weather");
                 JSONObject mainObj = json.getJSONObject("main");
                 JSONObject JSONWeather = jArr.getJSONObject(0);
                 Double temperature = mainObj.getDouble("temp");
                 String icon = JSONWeather.getString("icon");
-                image = jParser.getImage(icon);
+                image = jParser.getImage("http://openweathermap.org/img/w/" + icon + ".png");
                 temperature = temperature - 273.15;
                 Integer temp = temperature.intValue();
                 weather = temp + "°C";

@@ -6,22 +6,18 @@ import android.graphics.BitmapFactory;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpClient {
-    String BaseURL = "http://api.openweathermap.org/data/2.5/weather?";
-    String ImgURL = "http://openweathermap.org/img/w/";
-
-    public JSONObject getWeatherData(String location) {
-       HttpURLConnection con = null ;
-       InputStream is = null;
+    public JSONObject getWeatherData(String BaseURL) {
+       HttpURLConnection con;
+       InputStream is;
        JSONObject jObj;
        try {
-           con = (HttpURLConnection) ( new URL(BaseURL + location)).openConnection();
+           con = (HttpURLConnection) ( new URL(BaseURL)).openConnection();
            con.setRequestMethod("GET");
            con.setDoInput(true);
            con.setDoOutput(true);
@@ -29,9 +25,9 @@ public class HttpClient {
            StringBuilder buffer = new StringBuilder();
            is = con.getInputStream();
            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-           String line = null;
+           String line;
            while ( (line = br.readLine()) != null )
-               buffer.append(line + "\r\n");
+               buffer.append(line).append("\r\n");
            is.close();
            con.disconnect();
            jObj = new JSONObject(buffer.toString());
@@ -43,11 +39,11 @@ public class HttpClient {
        return null;
     }
 
-    public Bitmap getImage(String code) {
-       InputStream in = null;
-       Bitmap img = null;
+    public Bitmap getImage(String ImgURL) {
+       InputStream in;
+       Bitmap img;
        try {
-           in = new java.net.URL(ImgURL + code + ".png").openStream();
+           in = new java.net.URL(ImgURL).openStream();
            img = BitmapFactory.decodeStream(in);
            return img;
        }
@@ -56,5 +52,4 @@ public class HttpClient {
        }
        return null;
     }
-
 }
