@@ -23,6 +23,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.hivegarden.assistant.helpers.WateringAlgorithm;
+
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
@@ -249,7 +251,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         if (item.getItemId() == R.id.action_alerts) {
-            Toast.makeText(getActivity(), "Test alert action.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Test alert action.", Toast.LENGTH_SHORT).show();
             return true;
         }
         if (item.getItemId() == R.id.actionAddNewPlant) {

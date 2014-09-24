@@ -1,13 +1,15 @@
 package com.hivegarden.assistant.helpers;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WateringAlgorithm extends AsyncTask<String, String, String> {
-    double temperature, wind, humidity, cloud, rain;
+    double temperature, wind, humidity, cloud, rain = 0;
+    double dailyWaterNeed = 200;
     int count = 0;
 
     @Override
@@ -25,9 +27,11 @@ public class WateringAlgorithm extends AsyncTask<String, String, String> {
                JSONObject json = jParser.getWeatherData("http://api.openweathermap.org/data/2.5/history/city?lat=46.0173164&lon=14.5107803");
                JSONArray jArr = json.getJSONArray("list");
                for(int i=0;i<jArr.length();i++) {
-                   JSONObject mainObj = json.getJSONObject("main");
+                   JSONObject jAll = jArr.getJSONObject(i);
+                   JSONObject mainObj = jAll.getJSONObject("main");
                    Double temp = mainObj.getDouble("temp");
                    if (temp != null) {
+                       Log.d("WateringAlgorithm", "Temperatura: " + String.valueOf(temp));
                        temp = temp - 273.15;
                        temperature += temp;
                    }
@@ -36,23 +40,23 @@ public class WateringAlgorithm extends AsyncTask<String, String, String> {
                        humidity += humid;
                    }
 
-                   JSONObject windObj = json.getJSONObject("wind");
+                   JSONObject windObj = jAll.getJSONObject("wind");
                    Double windSpeed = windObj.getDouble("speed");
                    if (windSpeed != null) {
                        wind += windSpeed;
                    }
 
-                   JSONObject cloudsObj = json.getJSONObject("clouds");
+                   JSONObject cloudsObj = jAll.getJSONObject("clouds");
                    Double cloudAll = cloudsObj.getDouble("all");
                    if (cloudAll != null) {
                        cloud += cloudAll;
                    }
 
-                   JSONObject rainObj = json.getJSONObject("rain");
-                   Double rainMM = rainObj.getDouble("1h");
-                   if (rainMM != null) {
+                   /*JSONObject rainObj = jAll.getJSONObject("rain");
+                   if (rainObj != null) {
+                       Double rainMM = rainObj.getDouble("1h");
                        rain += rainMM;
-                   }
+                   }*/
 
                    count++;
                }
@@ -61,6 +65,7 @@ public class WateringAlgorithm extends AsyncTask<String, String, String> {
         }
 
         temperature /= count;
+        Log.d("WateringAlgorithm", String.valueOf(temperature));
         double percents = 0;
         int temp = 5;
         for(int i=0; i < 9; i++){
@@ -73,6 +78,7 @@ public class WateringAlgorithm extends AsyncTask<String, String, String> {
         }
 
         wind /= count;
+        Log.d("WateringAlgorithm", String.valueOf(wind));
         if (wind < 1){
             wind = 0.2;
         }else if (wind < 3.5){
@@ -81,16 +87,18 @@ public class WateringAlgorithm extends AsyncTask<String, String, String> {
             wind = 0.8;
         }
 
-        humidity /= count;
-        cloud /= count;
-        rain /= count;
+        humidity /= count*100;
+        Log.d("WateringAlgorithm", String.valueOf(humidity));
+        cloud /= count*100;
+        Log.d("WateringAlgorithm", String.valueOf(cloud));
+        Log.d("WateringAlgorithm", String.valueOf(rain));
         //TODO rain pretvorit v L/1 foot row
 
         //TODO Formula za izračun dodajanja vode
-        // double decrease = 0.1*(1 - humidity)*wind;
-        // double other =
-        // double watering = dailyWaterNeed+(dailyWaterNeed*other)-rain;
-        // Log.d("WateringAlgorithm", watering.intValue());
+        double influenceWindHumidity = 0.1*(1 - humidity)*wind;
+        double other = temperature * 1 - influenceWindHumidity;
+        double watering = dailyWaterNeed+(dailyWaterNeed*other)-rain;
+        Log.d("WateringAlgorithm", String.valueOf(watering));
         return null;
     }
     @Override

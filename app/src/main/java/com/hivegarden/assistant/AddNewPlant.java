@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 
 public class AddNewPlant extends Activity {
@@ -31,6 +33,22 @@ public class AddNewPlant extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.add_new_plant, menu);
+
+        // Get tracker.
+        Tracker t = ((ApplicationGlobalState) getApplication()).getTracker(
+                ApplicationGlobalState.TrackerName.APP_TRACKER);
+
+        //String path = getComponentName().getClassName();
+        // Set screen name.
+        // Where path is a String representing the screen name.
+        //t.setScreenName(path);
+        t.setAppId("12efgh45");
+        t.enableAutoActivityTracking(true);
+        t.setAppName("krneki");
+
+        // Send a screen view.
+        t.send(new HitBuilders.AppViewBuilder().build());
+
         return true;
     }
 

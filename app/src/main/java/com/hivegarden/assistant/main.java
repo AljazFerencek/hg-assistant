@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.hivegarden.assistant.helpers.*;
 
 import org.json.JSONArray;
@@ -30,8 +32,8 @@ import org.json.JSONObject;
 
 
 
-public class main extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class main extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+    //private static final String path = "";
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -50,6 +52,22 @@ public class main extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        // Get tracker.
+        Tracker t = ((ApplicationGlobalState) getApplication()).getTracker(
+                ApplicationGlobalState.TrackerName.APP_TRACKER);
+
+        //String path = getComponentName().getClassName();
+        // Set screen name.
+        // Where path is a String representing the screen name.
+        //t.setScreenName(path);
+        t.setAppId("12efgh45");
+        t.setAppVersion("1.2");
+
+        // Send a screen view.
+        t.send(new HitBuilders.AppViewBuilder().build());
+
 
         //check if app is being run for the first time
         SharedPreferences firstRun = getSharedPreferences("PREFERENCES", MODE_PRIVATE);
@@ -186,7 +204,9 @@ public class main extends Activity
         new JSONWeatherParser().execute();
         Handler handler = new Handler();
         handler.postDelayed(new Update(), 4000);
+        new WateringAlgorithm().execute();
     }
+
 
     private class Update implements Runnable{
         @Override
